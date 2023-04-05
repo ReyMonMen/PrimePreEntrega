@@ -1,7 +1,6 @@
-const fs = require('fs').promises;
+import { promises as fs } from 'fs';
 
-
-export class ProductManager {  
+class ProductManager {  
     
   
     constructor () {
@@ -135,13 +134,15 @@ const productoPrueba2 = {
     stock: 12
 }
 
-// const manager = new ProductManager();
-// console.log("Arreglo vacio")
+const manager = new ProductManager();
+
+// console.log("Arreglo vacio");
+
 // console.log(manager.getProducts());
 
 manager.addProduct(productoPrueba1);
 
-// console.log(manager.getProducts());
+// // console.log(manager.getProducts());
 
 manager.addProduct(productoPrueba2);
 
@@ -159,4 +160,4 @@ manager.addProduct(productoPrueba2);
 
 // console.log(manager.getProductById(1))
 
-export default ProductManager;
+export default ProductManager
