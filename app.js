@@ -8,16 +8,20 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/products', async (req, res) => {
-    const products = await productsManager.readProducts()
-    console.log(req.query);
-
+    let products = await productsManager.readProducts()
+    const limit = (+req.query.limit);
+    if(limit)
+    {
+        products = products.slice(0, limit);
+    }
+    
     res.send(products);
-})
+});
 
 app.get('/products/:pid', async (req, res) => {
     const product = await productsManager.getProductById(+req.params.pid);
     res.send(product);
-})
+});
 
 
 
