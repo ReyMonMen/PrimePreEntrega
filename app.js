@@ -1,41 +1,50 @@
-import ProductManager from "./ServidorConExpress.js";
-import express from 'express';
-
-const productoPrueba1 = {
-    name: "Producto de prueba",
-    description: "No sirve para un carajo",
-    price: 2000,
-    thumbnail: "Sin Imagen",
-    code: "abc123",
-    stock: 25
-}
-
-const productoPrueba2 = {
-    name: "Producto de prueba2",
-    description: "No sirve para un jocara",
-    price: 500,
-    thumbnail: "Sin Imagen",
-    code: "123abc",
-    stock: 12
-}
+// import express from 'express';
+import ProductsManager from './ServidorConExpress.js';
 
 
-const manager = new ProductManager();
+// const productManager = new ProductsManager();
 // const app = express();
 
+const main = async () =>
+{
+  try
+  {
+    const productsManager = new ProductsManager();
 
-console.log("Arreglo vacio")
-console.log(manager.getProducts());
+    await productsManager.loadData();
 
-manager.addProduct(productoPrueba1);
+    await productsManager.addProduct(productoPrueba1);
+    await productsManager.addProduct(productoPrueba2);
+    await productsManager.addProduct(productoPrueba3);
+    await productsManager.addProduct(productoPrueba4);
+    await productsManager.addProduct(productoPrueba5);
+    await productsManager.addProduct(productoPrueba6);
+    await productsManager.addProduct(productoPrueba7);
+    await productsManager.addProduct(productoPrueba8);
+    await productsManager.addProduct(productoPrueba9);
+   
 
-console.log(manager.getProducts());
+    // const resProdMod = await productsManager.updateProductById(2, 'description', 'Desc 2 Cambio');
+    // console.log(resProdMod);
 
-manager.addProduct(productoPrueba2);
+    // const resId = productsManager.getProductById(2);
+    // console.log(resId);
+    
 
-manager.updateProductById(2, 'description', 'cambio de descripcion2');
+    // const resDelProdId = await productsManager.deleteProductById(1);
+    // console.log(resDelProdId);
 
-console.log(manager.getProducts());
+    // const products = await productsManager.readProducts();
+    // console.log(products);
+
+  }
+  catch (e)
+  {
+    console.log(e);
+  }
+}
+
+main ();
 
 
 
@@ -43,3 +52,84 @@ console.log(manager.getProducts());
 // app.listen(8083, () => {
 //     console.log('Servidor escuchando en el puerto 8083');
 //   });
+
+
+
+
+
+
+
+const productoPrueba1 = {
+    name: "Producto 1",
+    description: "Desc1",
+    price: 2000,
+    thumbnail: "Sin Imagen",
+    code: "abc123",
+    stock: 25
+}
+
+const productoPrueba2 = {
+    name: "Producto 2",
+    description: "Desc2",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "123abc",
+    stock: 12
+}
+const productoPrueba3 = {
+    name: "Producto 3",
+    description: "Desc3",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "a123bc",
+    stock: 10
+}
+const productoPrueba4 = {
+    name: "Producto 4",
+    description: "Desc4",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "ab123c",
+    stock: 16
+}
+const productoPrueba5 = {
+    name: "Producto 5",
+    description: "Desc5",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "1a23bc",
+    stock: 47
+}
+const productoPrueba6 = {
+    name: "Producto 6",
+    description: "Desc6",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "1ab23c",
+    stock: 52
+}
+const productoPrueba7 = {
+    name: "Producto 7",
+    description: "Desc7",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "1abc23",
+    stock: 66
+}
+const productoPrueba8 = {
+    name: "Producto 8",
+    description: "Desc8",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "12a3bc",
+    stock: 77
+}
+const productoPrueba9 = {
+    name: "Producto 9",
+    description: "Desc9",
+    price: 500,
+    thumbnail: "Sin Imagen",
+    code: "12ab3c",
+    stock: 12
+}
+

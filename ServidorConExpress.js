@@ -113,57 +113,57 @@ class ProductsManager
 };
 
 
-const main = async () =>
-{
-  try
-  {
-    const productsManager = new ProductsManager();
+// const main = async () =>
+// {
+//   try
+//   {
+//     const productsManager = new ProductsManager();
 
-    await productsManager.loadData();
+//     await productsManager.loadData();
 
-    const resProd1 = await productsManager.addProduct(productoPrueba1);
-    console.log(resProd1);
+//     const resProd1 = await productsManager.addProduct(productoPrueba1);
+//     console.log(resProd1);
 
-    const resProd2 = await productsManager.addProduct(productoPrueba2);
-    console.log(resProd2);
+//     const resProd2 = await productsManager.addProduct(productoPrueba2);
+//     console.log(resProd2);
 
-    const resProdMod = await productsManager.updateProductById(2, 'description', 'cambio de descripcion4');
-    console.log(resProdMod);
+//     const resProdMod = await productsManager.updateProductById(2, 'description', 'cambio de descripcion4');
+//     console.log(resProdMod);
 
-    const resId = productsManager.getProductById(2);
-    console.log(resId);
+//     const resId = productsManager.getProductById(2);
+//     console.log(resId);
 
-    // const resDelProdId = await productsManager.deleteProductById(1);
-    // console.log(resDelProdId);
+//     // const resDelProdId = await productsManager.deleteProductById(1);
+//     // console.log(resDelProdId);
 
-    // const products = await productsManager.readProducts();
-    // console.log(products);
+//     // const products = await productsManager.readProducts();
+//     // console.log(products);
 
-  }
-  catch (e)
-  {
-    console.log(e);
-  }
-}
+//   }
+//   catch (e)
+//   {
+//     console.log(e);
+//   }
+// }
 
-main();
+// main();
 
-const productoPrueba1 = {
-    name: "Producto de prueba",
-    description: "No sirve para un carajo",
-    price: 2000,
-    thumbnail: "Sin Imagen",
-    code: "abc123",
-    stock: 25
-}
+// const productoPrueba1 = {
+//     name: "Producto de prueba",
+//     description: "No sirve para un carajo",
+//     price: 2000,
+//     thumbnail: "Sin Imagen",
+//     code: "abc123",
+//     stock: 25
+// }
 
-const productoPrueba2 = {
-    name: "Producto de prueba2",
-    description: "No sirve para un jocara",
-    price: 500,
-    thumbnail: "Sin Imagen",
-    code: "123abc",
-    stock: 12
-}
+// const productoPrueba2 = {
+//     name: "Producto de prueba2",
+//     description: "No sirve para un jocara",
+//     price: 500,
+//     thumbnail: "Sin Imagen",
+//     code: "123abc",
+//     stock: 12
+// }
 
 export default ProductsManager
