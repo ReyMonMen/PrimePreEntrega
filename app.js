@@ -1,15 +1,33 @@
-// import express from 'express';
+import express from 'express';
 import ProductsManager from './ServidorConExpress.js';
 
 
-// const productManager = new ProductsManager();
-// const app = express();
+const productsManager = new ProductsManager();
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/products', async (req, res) => {
+    const products = await productsManager.readProducts()
+    console.log(req.query);
+
+    res.send(products);
+})
+
+app.get('/products/:pid', async (req, res) => {
+    const product = await productsManager.getProductById(+req.params.pid);
+    res.send(product);
+})
+
+
+
 
 const main = async () =>
 {
   try
   {
-    const productsManager = new ProductsManager();
+    
+    // const productsManager = new ProductsManager();
 
     await productsManager.loadData();
 
@@ -49,9 +67,9 @@ main ();
 
 
 
-// app.listen(8083, () => {
-//     console.log('Servidor escuchando en el puerto 8083');
-//   });
+app.listen(8083, () => {
+    console.log('Servidor escuchando en el puerto 8083');
+});
 
 
 

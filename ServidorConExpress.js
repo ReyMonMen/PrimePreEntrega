@@ -13,7 +13,6 @@ class ProductsManager
 
     async loadData()
     {
-        // Load JSON information
         this.#products = await this.readProducts();
     }
 
