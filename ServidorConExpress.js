@@ -1,120 +1,152 @@
 import { promises as fs } from 'fs';
 
-class ProductManager {  
-    
-  
-    constructor () {
+class ProductsManager
+{
+    #products;
+
+    constructor()
+    {
         this.id = 1;
-        this.products = [];
-        this.path = `./products.json`;
-      
+        this.#products = [];
+        this.fileName = './products.json';
     }
 
     async loadData()
     {
-        // cargando el archivo al arreglo
-        this.products = await this.readProducts();
+        // Load JSON information
+        this.#products = await this.readProducts();
+    }
+
+    async addProduct(product)
+
+    {
+        const findCode = this.#products.find(products => products.code === product.code); 
+
+        if(findCode)
+        {
+            return `El codigo de producto ${product.code} ya esta en uso`;
+        
+        }
+        else
+        {
+            let idMasAlto = 0;
+            this.#products.forEach(objeto => {if (objeto.id > idMasAlto) idMasAlto = objeto.id;});
+            product.id = idMasAlto + 1;
+            this.#products.push(product);
+            await fs.writeFile(this.fileName,JSON.stringify(this.#products));
+            return "Producto Agragado";
+
+        }
+        
     }
 
     async readProducts()
     {
         try
         {
-            const productsJSON = await fs.readFile(this.path,  'utf-8' );
-            // console.log(productsJSON)
-            return JSON.parse(productsJSON);
+            const products = await fs.readFile(this.fileName, { encoding: 'utf-8' });
+            return JSON.parse(products);
         }
-        catch (e)
+        catch (error)
         {
-            // console.log(`El archivo ${this.path} no existe, creando...`);
-            // await fs.writeFile(this.path, '[]');
-            // return [];
+            // console.log(`El archivo ${this.fileName} no existe, creando...`);
+            // await fs.writeFile(this.fileName, '[]');
+            return [];
         }
     }
 
-    async pushData()
+    getProductById(id)
     {
-        await fs.writeFile(this.path,JSON.stringify(this.products));
 
-    }
-    
+        this.loadData();
 
-    addProduct (product){
-
-        manager.loadData();
-        
-        const findCode = this.products.find(products => products.code === product.code); 
-
-        if(findCode){
-            console.log(`El codigo de producto ${product.code} ya esta en uso`);
-        }
-        else{
-            product.id = this.id++;
-            this.products.push(product);
-            manager.pushData();
-
-        }
-    }
-
-    getProductById(id){
-
-        manager.loadData();
+        const findId = this.#products.find(product => product.id === id);
       
-        const findId = this.products.find(product => product.id === id);
-      
-        if(!findId){
+        if(!findId)
+        {
           return "Producto no encontrado";
         }
       
         return findId;
     }
-    
-    getProducts(){
 
-        manager.loadData();
+    async deleteProductById (id)
+    {
 
-        return this.products;
-    }
+        this.loadData();      
+        const findId = this.#products.find(product => product.id === id);
 
-    deleteProductById (id){
-        manager.loadData();
-        const findId = this.products.find(product => product.id === id);
-
-        if(findId){
-            let index = this.products.indexOf(this.products.find(product => product.id === id));
-            this.products.splice(index,1);
-            manager.pushData();
+        if(findId)
+        {
+            let index = this.#products.indexOf(this.#products.find(product => product.id === id));
+            this.#products.splice(index,1);
+            await fs.writeFile(this.fileName,JSON.stringify(this.#products));
+            return `El producto id Nro: ${id} fue eliminado.`
         }
         else 
-            console.log(`El producto id Nro: ${id} no existe.`);
-
-        
+            return `El producto id Nro: ${id} no existe.`;
 
     }
 
-    updateProductById(id, key, value){
+    async updateProductById(id, key, value)
+    {
         
-        manager.loadData();
+        this.loadData(); 
 
-        const findId = this.products.find(product => product.id === id);
+        const findId = this.#products.find(product => product.id === id);
 
-        if(findId){
+        if(findId)
+        {
             if(key in findId){
-                let index = this.products.indexOf(this.products.find(product => product.id === id));
-                this.products[index][key]= value;
-                manager.pushData();    
+                let index = this.#products.indexOf(this.#products.find(product => product.id === id));
+                this.#products[index][key]= value;
+                await fs.writeFile(this.fileName,JSON.stringify(this.#products));
+                return 'campo modificado con exito'     
             }
             else
-                console.log('key not found');
-            
+                return 'key not found';   
         }
         else
-            console.log(`El producto id Nro: ${id} no existe.`);
+            return `El producto id Nro: ${id} no existe.`;
             
     }
-}; 
+};
 
 
+const main = async () =>
+{
+  try
+  {
+    const productsManager = new ProductsManager();
+
+    await productsManager.loadData();
+
+    const resProd1 = await productsManager.addProduct(productoPrueba1);
+    console.log(resProd1);
+
+    const resProd2 = await productsManager.addProduct(productoPrueba2);
+    console.log(resProd2);
+
+    const resProdMod = await productsManager.updateProductById(2, 'description', 'cambio de descripcion4');
+    console.log(resProdMod);
+
+    const resId = productsManager.getProductById(2);
+    console.log(resId);
+
+    // const resDelProdId = await productsManager.deleteProductById(1);
+    // console.log(resDelProdId);
+
+    // const products = await productsManager.readProducts();
+    // console.log(products);
+
+  }
+  catch (e)
+  {
+    console.log(e);
+  }
+}
+
+main();
 
 const productoPrueba1 = {
     name: "Producto de prueba",
@@ -134,30 +166,4 @@ const productoPrueba2 = {
     stock: 12
 }
 
-const manager = new ProductManager();
-
-// console.log("Arreglo vacio");
-
-// console.log(manager.getProducts());
-
-manager.addProduct(productoPrueba1);
-
-// // console.log(manager.getProducts());
-
-manager.addProduct(productoPrueba2);
-
-// console.log(manager.getProducts());
-
-// manager.deleteProductById(4);
-
-// manager.updateProductById(2, 'description', 'cambio de descripcion2');
-
-// console.log(manager.getProducts());
-
-// manager.addProduct(productoPrueba1);
-
-// console.log(manager.getProductById(2))
-
-// console.log(manager.getProductById(1))
-
-export default ProductManager
+export default ProductsManager

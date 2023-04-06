@@ -21,7 +21,7 @@ const productoPrueba2 = {
 
 
 const manager = new ProductManager();
-const app = express();
+// const app = express();
 
 
 console.log("Arreglo vacio")
@@ -33,7 +33,11 @@ console.log(manager.getProducts());
 
 manager.addProduct(productoPrueba2);
 
+manager.updateProductById(2, 'description', 'cambio de descripcion2');
+
 console.log(manager.getProducts());
+
+
 
 
 // app.listen(8083, () => {
